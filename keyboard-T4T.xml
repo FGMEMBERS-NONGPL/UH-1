@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+************************************************************************
+Avatar Scorpion Keyboard configuration file
+
+Copyright (c) 2020 Simon 'bomber' Morley																												
+simonbomber64 at googlemail.com
+************************************************************************
+-->
+
+<PropertyList>
+	<keyboard>
+		
+		<key n="115">
+			<name>s</name>
+			<desc>turbines start stop</desc>
+			<binding>
+				<command>property-toggle</command>
+				<property>/controls/electric/engine[0]/generator</property>
+			</binding>
+			<binding>
+				<command>property-toggle</command>
+				<property>/controls/engines/engine[0]/cutoff</property>
+			</binding>
+			<binding>
+				<command>property-toggle</command>
+				<property>/controls/engines/engine[0]/starter</property>
+			</binding>
+			<binding>
+				<command>property-toggle</command>
+				<property>/controls/electric/engine[1]/generator</property>
+			</binding>
+			<binding>
+				<command>property-toggle</command>
+				<property>/controls/engines/engine[1]/cutoff</property>
+			</binding>
+			<binding>
+				<command>property-toggle</command>
+				<property>/controls/engines/engine[1]/starter</property>
+			</binding>
+		</key>	 
+		
+	</keyboard>	
+</PropertyList>

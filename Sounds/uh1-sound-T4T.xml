@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+
+  <fx>
+
+		<!-- ========= Intro ============ -->
+
+    <!-- Part of Ride of the Valkyries By Richard Wagner
+                                       Rearranged L. Roberts       
+
+         Midifile : http://www.blueman.name/FICHIERS/UpdateFileStats.php 
+
+         Use Timidity and freepats for make the Wav file.
+    -->		
+
+		<intro>
+			<name>Introduction by Richard Wagner</name>
+			<path>Aircraft/UH-1/Sounds/tonnerre.wav</path>
+			<condition>
+				<and>				
+					<greater-than>
+						<property>/fdm/jsbsim/simulation/sim-time-sec</property>
+						<value>0</value>
+					</greater-than>
+					<less-than>
+						<property>/fdm/jsbsim/simulation/sim-time-sec</property>
+						<value>160</value>
+					</less-than>
+				</and>
+			</condition>
+			<volume>
+				<factor>0.75</factor>
+			</volume>
+			<reference-dist>10.0</reference-dist>
+			<max-dist>20.0</max-dist>		
+		</intro>
+
+		<engine>
+			<name>engine-start</name>
+			<mode>once</mode>
+			<path>Aircraft/UH-1/Sounds/v22_turbine_strt_out.wav</path>
+			<condition>
+				<greater-than>
+					<property>fdm/jsbsim/propulsion/engine[0]/n1</property>
+					<value>1</value>
+				</greater-than>
+			</condition>
+			<volume>
+				<factor>0.4</factor>			
+			</volume>
+			<position>
+				<x>12.6312335958005</x>
+				<z>5.08530183727034</z>	
+			</position>
+		</engine>
+
+		<engine>
+			<name>turbine</name>
+			<mode>looped</mode>
+			<path>Aircraft/UH-1/Sounds/inside_noflap.wav</path>
+			<condition>
+				<and>			
+					<greater-than>
+						<property>fdm/jsbsim/propulsion/engine[0]/engine-rpm</property>
+						<value>500</value>
+					</greater-than>
+					<not>
+						<property>sim/crashed</property>
+					</not>
+				</and>
+			</condition>
+			<volume>
+				<property>fdm/jsbsim/propulsion/engine[0]/engine-rpm</property>
+				<factor>0.0002</factor>
+				<max>1.0</max>				
+			</volume>
+			<pitch>
+				<property>fdm/jsbsim/propulsion/engine[0]/engine-rpm</property>
+				<factor>0.00035</factor>
+				<min>0.5</min>				
+			</pitch>
+			<position>
+				<x>12.6312335958005</x>
+				<z>5.08530183727034</z>	
+			</position>
+		</engine>
+		
+		<engine>
+			<name>rotor</name>
+			<mode>looped</mode>
+			<path>Aircraft/UH-1/Sounds/outside_only_flap.wav</path>
+			<condition>
+				<and>
+					<greater-than>
+						<property>fdm/jsbsim/propulsion/engine[0]/propeller-rpm</property>
+						<value>1</value>
+					</greater-than>
+					<not>
+						<property>sim/crashed</property>
+					</not>
+				</and>
+			</condition>
+			<volume>
+				<property>fdm/jsbsim/propulsion/engine[0]/propeller-rpm</property>
+				<factor>0.006</factor>
+				<offset>-0.5</offset>				
+			</volume>
+			<pitch>
+				<property>fdm/jsbsim/propulsion/engine[0]/propeller-rpm</property>
+				<factor>0.0035</factor>
+				<offset>0</offset>				
+				<max>1.0</max>				
+			</pitch>
+			<position>
+				<x>7.64435695538057</x>
+				<z>9.61286089238844</z>
+			</position>
+		</engine>		
+   
+  </fx>
+
+</PropertyList>

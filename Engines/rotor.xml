@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+
+<!--
+
+Copyright (c) 2020 Simon 'bomber' Morley																									
+simonbomber64 at googlemail.com																									
+																									
+This work is licensed under the																									
+Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.																									
+To view a copy of this license,																									
+visit http://creativecommons.org/licenses/by-nc-sa/_3.0/ or																									
+send a letter to Creative Commons, PO Box 1866, Mountain View, Cd 94042, USA.																									
+																									
+Attribution,  You must give appropriate credit, provide a link to the license,																									
+and indicate if changes were made. You may do so in any reasonable manner,																									
+but not in any way that suggests the licensor endorses you or your use.																									
+																									
+NonCommercial,  You may not use the material for commercial purposes.																									
+																									
+ShareAlike,  If you remix, transform, or build upon the material,																									
+you must distribute your contributions under the same license as the original.																									
+																									
+**************************************************************************
+
+Based on tables from JavaProp.
+3.0 overall diameter
+0.25 cord diameter
+
+ -->
+
+<propeller name="2 blade rotor for UH-1D" version="1.01">
+
+	<!-- 
+	<ixx> is the rotational moment of inertia for the propeller/engine combination.
+	Small numbers accelerate faster but bounce around more. Large numbers
+	accelerate slower and regulate smoother.
+	
+	 I = m*D^2/12
+	 
+	 m=167.04kg
+	 d=14.6m
+	-->
+	
+	<ixx unit="SLUG*FT2">2196.03</ixx>
+  
+  	<!-- 
+	Prop Characteristics
+	-->
+	
+	<diameter unit="IN">576</diameter>
+	<numblades>2</numblades>
+	<constspeed>0</constspeed>
+  
+ 	<!-- 
+	<gearratio> is the gearing between the prop and the engine,
+	Normally it's defined from the engine to the propeller and is a value below zero
+	ie 0.477
+	To specify from the propeller to the engine use 1/X = gearration = 1/0.477 = 2.09
+	--> 
+  
+	<gearratio>20.3</gearratio>
+
+	<!-- 
+	<minpitch> is the Prop min AoA setting
+	<maxpitch> is the Prop max AoA setting
+	-->
+	<minpitch>-90</minpitch>
+	<maxpitch>90</maxpitch>
+  
+	<!--
+	Set the minrpm of the propeller to the props min rpm*engine to prop gearratio.
+		1800*0.477 = 859
+	This means the propeller will not try to slow the engine below that point.
+	
+	<maxrpm> is the Prop Govenors max setting
+	-->  
+	<minrpm>324</minrpm>
+	<maxrpm>324</maxrpm>
+	
+	<!-- 
+	<ct_factor> is the props co-efficent of thrust 'tuning' factor
+	<cp_factor> is the props co-efficent of power 'tuning' factor
+	-->
+	
+	<ct_factor> 0.00000001 </ct_factor>	
+	<cp_factor> 1.296296296 </cp_factor>	
+	
+	<table name="C_THRUST" type="internal">
+	  <tableData>
+	-90	-11	-3	6	90
+-0.40	0.000000	0.070946	0.100000	0.138750	0.000000
+-0.35	0.000000	0.045946	0.075000	0.113750	0.000000
+-0.30	0.000000	0.025946	0.055000	0.093750	0.000000
+-0.25	0.000000	0.010946	0.040000	0.078750	0.000000
+-0.20	0.000000	-0.004054	0.025000	0.063750	0.000000
+-0.15	0.000000	-0.017054	0.012000	0.050750	0.000000
+-0.10	0.000000	-0.023054	0.006000	0.044750	0.000000
+-0.05	0.000000	-0.027054	0.002000	0.040750	0.000000
+0.00	0.000000	-0.029054	0.000000	0.038750	0.000000
+0.05	0.000000	-0.032442	-0.000702	0.030090	0.000000
+0.10	0.000000	-0.036543	-0.002308	0.026150	0.000000
+0.15	0.000000	-0.042203	-0.006800	0.021062	0.000000
+0.20	0.000000	-0.047022	-0.011519	0.015437	0.000000
+0.25	0.000000	-0.052299	-0.016072	0.010211	0.000000
+0.30	0.000000	-0.057922	-0.021017	0.004657	0.000000
+0.35	0.000000	-0.063836	-0.025345	-0.001171	0.000000
+0.40	0.000000	-0.069852	-0.030908	-0.007194	0.000000
+	  </tableData>
+	</table>
+	
+	<table name="C_POWER" type="internal">
+	 <tableData>
+	-90	-11	-3	6	90
+-0.40	1.092652	-0.016697	-0.008842	-0.003187	1.092638
+-0.35	1.094769	-0.014110	-0.006255	-0.000600	1.094755
+-0.30	1.096729	-0.011993	-0.004138	0.001517	1.096715
+-0.25	1.098100	-0.010033	-0.002178	0.003477	1.098086
+-0.20	1.099038	-0.008662	-0.000807	0.004848	1.099024
+-0.15	1.099601	-0.007724	0.000131	0.005786	1.099587
+-0.10	1.099917	-0.007161	0.000694	0.006349	1.099902
+-0.05	1.100000	-0.006845	0.001009	0.006664	1.100000
+0.00	1.100000	-0.006762	0.001107	0.006762	1.100000
+0.05	1.099601	-0.006845	0.001009	0.006664	1.099587
+0.10	1.099038	-0.007161	0.000694	0.006349	1.099024
+0.15	1.098100	-0.007724	0.000131	0.005786	1.098086
+0.20	1.096729	-0.008662	-0.000807	0.004848	1.096715
+0.25	1.094769	-0.010033	-0.002178	0.003477	1.094755
+0.30	1.092652	-0.011993	-0.004138	0.001517	1.092638
+0.35	1.090065	-0.014110	-0.006255	-0.000600	1.090051
+0.40	1.106762	-0.016697	-0.008842	-0.003187	1.093238
+	 </tableData>
+	</table>
+
+	<!-- thrust effects of helical tip Mach -->
+	<table name="CT_MACH" type="internal">
+		<tableData>
+			0.85   1.0
+			1.05   0.8
+		</tableData>
+	</table>
+
+	<!-- power-required effects of helical tip Mach -->
+	<table name="CP_MACH" type="internal">
+		<tableData>
+			0.85   1.0
+			1.05   1.8
+		</tableData>
+	</table>
+
+</propeller>

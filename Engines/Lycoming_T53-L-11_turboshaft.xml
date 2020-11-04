@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<turboprop_engine name="Lycoming_T53-L-11_turboshaft">
+  <milthrust unit="LBS"></milthrust>
+  <idlen1>25</idlen1>
+  <maxn1>100.0</maxn1>
+  <maxpower unit="HP">1400</maxpower>
+  <psfc unit="LBS/HR/HP">0.44</psfc>
+  <n1idle_max_delay>2</n1idle_max_delay>
+  <maxstartingtime>3</maxstartingtime>
+  <startern1>60</startern1>
+  <ielumaxtorque unit="FT*LB">1251</ielumaxtorque>
+  <itt_delay>0.15</itt_delay>
+  <betarangeend>64</betarangeend>
+  <reversemaxpower>0</reversemaxpower>
+
+	<function name="EnginePowerVC">																						
+		<table>
+			<description> Engine power, function of ram air </description>
+			<independentVar lookup="row">aero/qbar-psf</independentVar>
+				<tableData>
+					0		1
+					10		1.1
+				</tableData>
+		</table>
+	</function>
+
+<!-- Fitted to UH1-D -->		
+<!-- 	
+<table name="EnginePowerRPM_N1" type="internal">
+		<description> Engine Power, function of Engine RPM(N2) and Throttle setting(N1) </description>
+			<tableData>
+						5	10	20	40	80	85	90	95	98
+				0		1	1	1	1	1	1	1	1	1
+				660		6	13	26	51	102	165	237	303	342
+				1320	11	21	43	85	170	275	395	505	570
+				1980	14	28	56	113	225	335	480	600	675
+				2640	17	34	69	138	275	390	550	700	790
+				3300	19	39	78	155	310	415	610	800	900
+				3960	21	43	85	170	340	440	630	860	980
+				4620	23	46	91	183	365	465	650	900	1035
+				5280	24	48	95	190	380	500	680	905	1065
+				5940	24	48	96	193	385	515	705	910	1075
+				6600	22	44	88	175	350	510	700	920	1080
+			</tableData>
+	</table> -->
+	
+<!-- Fitted to UH1-H -->	
+	<table name="EnginePowerRPM_N1" type="internal">
+		<description> Engine Power, function of Engine RPM(N2) and Throttle setting(N1) </description>
+			<tableData>
+						5	10	20	40	80	85	90	95		98
+				0		1	1	1	1	1	1	1	1		1
+				660		8	17	33	66	132	214	307	393		443
+				1320	14	28	55	110	220	356	512	655		739
+				1980	18	36	73	146	292	434	622	778		875
+				2640	22	45	89	178	356	506	713	907		1024
+				3300	25	50	100	201	402	538	791	1037	1167
+				3960	28	55	110	220	441	570	817	1115	1270
+				4620	30	59	118	237	473	603	843	1167	1342
+				5280	31	62	123	246	493	648	881	1173	1381
+				5940	31	62	125	250	499	668	914	1180	1394
+				6600	28	57	113	227	454	661	907	1193	1400
+			</tableData>
+	</table>	
+
+	<table name="ITT_N1" type="internal">
+		<description> Inter-Turbine Temperature ITT [deg C] depending on N1 and engine run (0=off / 1=running) </description>
+			<tableData>
+						0		1
+				0		0		0
+				25		75		200
+				50		150		400
+				100		300		800
+			</tableData>
+	</table>
+																						
+	<table name="CombustionEfficiency_N1" type="internal">
+		<description> Burn Efficiency, function of Throttle setting(N1) </description>
+			<tableData>
+				0		0.2
+				65		0.85
+				75		0.90
+				85		0.94
+				90		0.97
+				95		0.99
+				100		1.0
+			</tableData>
+	</table>
+	
+</turboprop_engine>
