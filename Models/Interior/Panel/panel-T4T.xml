@@ -74,7 +74,7 @@
   </model>
   
   <model>
-    <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/asi/asi.xml</path>
+    <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/asi/asi-T4T.xml</path>
     <offsets>
       <x-m> -0.252 </x-m>
       <y-m> -0.552 </y-m>

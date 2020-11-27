@@ -3,10 +3,10 @@
 <!--
 ************************************************************************
 T4T-UH-1 simulation config. This files ties together all the components
-used by FGFS to represent the Bell UH-1D 'Huey' Helicopter. Components include the flight data 
+used by FGFS to represent the Bell UH-1D 'Huey' Helicopter. Components include the flight data
 model, instrument panel, and external 3D model.
 
-Copyright (c) 2020 Simon 'bomber' Morley																												
+Copyright (c) 2020 Simon 'bomber' Morley
 simonbomber64 at googlemail.com
 ************************************************************************
 -->
@@ -14,8 +14,8 @@ simonbomber64 at googlemail.com
 <PropertyList>
 	<sim include="help.xml">
 		<description>Bell UH-1D 'Huey' (T4T JSBSim)</description>
-		<author>Simon'bomber'Morley(FDM), BARANGER Emmanuel, Heiko Schulz, Simon Lister (3D), Maik Justus (sound)</author>		
-		
+		<author>Simon'bomber'Morley(FDM), BARANGER Emmanuel, Heiko Schulz, Simon Lister (3D), Maik Justus (sound)</author>
+
 		<status>early T4T Trial</status>
 		<rating>
 			<FDM type="int">0</FDM>
@@ -26,14 +26,14 @@ simonbomber64 at googlemail.com
     		<tags>
       			<tag>helicopter</tag>
     		</tags>
-     
+
 		<flight-model>jsb</flight-model>
 		<aero>Flight-Damage-Model</aero>
-		
+
 		<startup>
-			<splash-texture>Aircraft/UH-1/Splash/uh1-splash.png</splash-texture>
+			<splash-texture>Aircraft/UH-1/Splash/uh1-splash-T4T.png</splash-texture>
 		</startup>
-		
+
 		<sound>
 			<audible>true</audible>
 			<path>Aircraft/UH-1/Sounds/uh1-sound-T4T.xml</path>
@@ -71,24 +71,24 @@ simonbomber64 at googlemail.com
 			</clipping>
 
 		</hud> -->
-		
+
 <!-- 		<submodels>
 			<serviceable type="bool">true</serviceable>
 			<path>Aircraft/UH-1/Models/Effects/guns/UH-1submodels.xml</path>
 		</submodels> -->
 
 		<virtual-cockpit archive="y">true</virtual-cockpit>
-		<allow-toggle-cockpit archive="y">true</allow-toggle-cockpit>		
-		
+		<allow-toggle-cockpit archive="y">true</allow-toggle-cockpit>
+
 		<model>
-			<path archive="y">Aircraft/UH-1/Models/uh1-T4T.xml</path>    
+			<path archive="y">Aircraft/UH-1/Models/uh1-T4T.xml</path>
 			<uh1>
 				<state type="int">0</state>
 				<engine type="float">0</engine>
 				<rotor-step-deg type="float">-1</rotor-step-deg>
-			</uh1> 
+			</uh1>
 		</model>
-		
+
 		<view n="0">
 			<name>Default</name>
 			<type>lookfrom</type>
@@ -172,49 +172,56 @@ simonbomber64 at googlemail.com
 				</limits>
 			</config>
 		</view>
-		
+
 	</sim>
-	
+
 	<controls>
 		<engines>
 			<engine n="0">
 				<throttle type="double">0.6858</throttle>
 			</engine>
 		</engines>
-	</controls>	
-				
- 	<input include="keyboard-T4T.xml">			
-	  <joysticks>	
-	    <js>
-	      <axis>
-		<desc type="string">Aileron</desc>
-		<binding>
-		  <command type="string">property-scale</command>
-		  <property type="string">/controls/flight/aileron</property>
-		  <factor type="double">1</factor>
-		  <offset type="double">0</offset>
-		  <power type="double">1</power>
-		</binding>
-	      </axis>
-	      <axis n="1">
-		<desc type="string">Elevator</desc>
-		<binding>
-		  <command type="string">property-scale</command>
-		  <property type="string">/controls/flight/elevator</property>
-		  <factor type="double">-1</factor>
-		  <offset type="double">0</offset>
-		  <power type="double">1</power>
-		</binding>
-	      </axis>
-	      <axis n="2">
-		<desc>Throttle</desc>
-		<binding>
-		  <command>property-scale</command>
-		  <property>fdm/jsbsim/fcs/thrust-cmd</property>
-		</binding>
-	      </axis>		
-	    </js>
-	  </joysticks>		
-	</input>
- 	
+	</controls>
+
+ 	<input include="keyboard-T4T.xml">
+		<joysticks>	
+		<js>
+			<axis>
+				<desc type="string">Aileron</desc>
+				<binding>
+					<command type="string">property-scale</command>
+					<property type="string">/controls/flight/aileron</property>
+					<factor type="double">1</factor>
+					<offset type="double">0</offset>
+					<power type="double">1</power>
+				</binding>
+			</axis>
+			<axis n="1">
+				<desc type="string">Elevator</desc>
+				<binding>
+					<command type="string">property-scale</command>
+					<property type="string">/controls/flight/elevator</property>
+					<factor type="double">-1</factor>
+					<offset type="double">0</offset>
+					<power type="double">1</power>
+				</binding>
+			</axis>
+			<axis n="2">
+				<desc>Throttle</desc>
+				<binding>
+					<command>property-scale</command>
+					<property>fdm/jsbsim/fcs/collective-cmd-norm</property>
+				</binding>
+			</axis>
+			<axis>
+				<desc>Rudder</desc>
+				<binding>
+					<command>property-scale</command>
+					<property>/controls/flight/rudder</property>
+				</binding>
+			</axis>		
+		</js>
+		</joysticks>		
+	</input>	
+	
 </PropertyList>
