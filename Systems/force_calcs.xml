@@ -30,8 +30,7 @@ you must distribute your contributions under the same license as the original.
 	<property type="double" value="1">T4T/damage/fuselage_mid</property>
 	<property type="double" value="1">T4T/damage/fuselage_aft</property>
 	<property type="double" value="0">T4T/aero/h-tail/rigging-rad</property>
-	<property type="double" value="0">propulsion/rudder_r-pos</property>
-	<property type="double" value="1">propulsion/rotor_tail-power_adjust</property>
+	<property type="double" value="1">external_reactions/rotor_tail/power_adjust</property>
 	<property type="double" value="0">propulsion/engine[0]/rotor/main-lbs</property>
 		
 	<channel name="dynamic_pressures">
@@ -420,24 +419,6 @@ you must distribute your contributions under the same license as the original.
 				<output>external_reactions/rotor_tail/y</output>
 			</fcs_function>
 			
-	<!-- 		<summer>
-				<input>moments/n-external-lbsft</input>		
-				<input>external_reactions/rotor_tail/n-prop-lbsft</input>
-				<output>external_reactions/rotor_tail/error</output>
-			</summer>
-			<pid>
-				<input>external_reactions/rotor_tail/error</input>
-				<kp>0.0002</kp>
-				<ki>0.00001</ki>
-				<kd>0.00001</kd>
-				<output>external_reactions/rotor_tail/adjust</output>
-			</pid>
-			<summer>
-				<input>external_reactions/rotor_tail/y</input>
-				<input>external_reactions/rotor_tail/adjust</input>
-				<output>external_reactions/rotor_tail/y</output>
-			</summer> -->
-			
 			<fcs_function name="moments/l-tail_rotor-lbsft">
 				<function>
 					<product>
@@ -466,12 +447,16 @@ you must distribute your contributions under the same license as the original.
 
 			<!-- ####   Main Rotor   #### -->
 				
-			<pure_gain>
-	<!-- 			<input>propulsion/engine[0]/rotor/vortex_ring</input> -->
-				<input>propulsion/engine[0]/thrust-lbs</input>			
-				<gain>-100000000</gain>
-				<output>propulsion/engine[0]/rotor/main-lbs</output>			
-			</pure_gain>		
+			<fcs_function>
+				<function>
+					<product>
+						<property>propulsion/engine[0]/rotor/vortex_ring</property>				
+						<property>propulsion/engine[0]/thrust-lbs</property>
+						<value>-100000000</value>						
+					</product>
+				</function>
+				<output>propulsion/engine[0]/rotor/main-lbs</output>
+			</fcs_function>				
 			
 			<fcs_function>
 				<function>

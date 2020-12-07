@@ -13,7 +13,7 @@
 
   <!-- tailrpm-->
   <model>
-    <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/tailrpm/tailrpm.xml</path>
+    <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/tailrpm/tailrpm-T4T.xml</path>
     <offsets>
       <x-m> -0.259 </x-m>
       <y-m>  0.005 </y-m>
@@ -100,7 +100,7 @@
   
   <!--fuel-->
   <model>
-    <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/fuel/fflow1.xml</path>
+    <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/fuel/fflow1-T4T.xml</path>
     <offsets>
       <x-m> -0.259 </x-m>
       <y-m> -0.131 </y-m>
@@ -112,7 +112,7 @@
   </model>
   
   <model>
-    <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/fuel/fuelqty.xml</path>
+    <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/fuel/fuelqty-T4T.xml</path>
     <offsets>
       <x-m> -0.259 </x-m>
       <y-m> -0.064 </y-m>

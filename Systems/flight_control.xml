@@ -38,8 +38,10 @@ z = n
 
 <system name="flight_control">
 
-<property type="double" value="1">fcs/collective-cmd-norm</property>
+<!-- <property type="double" value="1">/sim/current-view/view-number</property> --> 				<!-- Outerra Only -->
+<property type="double" value="0">T4T/AGP/PID/velocity/adjust</property>
 <property type="double" value="0">T4T/AGP/PID/collective/cmd-norm</property>
+<property type="double" value="0">fcs/collective-cmd-norm</property>
 <property type="double" value="2">T4T/AGP/mode</property>
 <property type="double" value="0">T4T/AGP/trim</property>
 
@@ -55,18 +57,24 @@ z = n
 
 		<switch name="T4T/AGP/mode-2">
 			<default value="0"/>
-			<test logic="AND" value="1">
-				T4T/AGP/mode eq 2
-				/sim/current-view/view-number ne 9	
+			<test logic="OR" value="1">
+				<test logic="AND">
+					T4T/AGP/mode eq 2
+					/sim/current-view/view-number ne 9
+				</test>
+				<test>
+					gear/wow EQ 1
+				</test>
 			</test>
 			<output>T4T/AGP/mode-2</output>
 		</switch>
-		
+
 		<switch name="T4T/AGP/mode-3">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				T4T/AGP/mode eq 2
-				/sim/current-view/view-number eq 9	
+				/sim/current-view/view-number eq 9
+				gear/wow ne 1
 			</test>
 			<output>T4T/AGP/mode-3</output>
 		</switch>
@@ -75,17 +83,25 @@ z = n
 			<default value="0"/>
 			<test logic="AND" value="1">
 				gear/wow ne 1
-				propulsion/engine[0]/set-running eq 0	
+				propulsion/engine[0]/set-running eq 0
 			</test>
 			<output>T4T/AGP/mode-4</output>
-		</switch>		
-			
+		</switch>
+
 </channel>
 
 <channel name="Pilot" execute="T4T/AGP/mode-2">
-				
+
+	<!-- Collective Adjust -->
+
+		<summer>
+			<input></input>
+			<input>fcs/collective-cmd-norm</input>
+			<output>T4T/AGP/PID/collective/cmd-norm</output>
+		</summer>
+
 	<!-- Roll Adjust -->
-	
+
 		<scheduled_gain>
 			<input>T4T/one</input>
 			<table>
@@ -96,10 +112,10 @@ z = n
 				</tableData>
 			</table>
 			<output>T4T/AGP/PID/cyclic/roll_adjust</output>
-		</scheduled_gain>		
-		
+		</scheduled_gain>
+
 	<!-- Pitch Adjust -->
-	
+
 		<scheduled_gain>
 			<input>T4T/one</input>
 			<table>
@@ -110,26 +126,35 @@ z = n
 				</tableData>
 			</table>
 			<output>T4T/AGP/PID/cyclic/pitch_adjust</output>
-		</scheduled_gain>		
+		</scheduled_gain>
 
 	<!-- Yaw Adjust -->
 
-		<scheduled_gain>
-			<input>T4T/one</input>
-			<table>
-				<independentVar>fcs/rudder-cmd-norm</independentVar>
-				<tableData>
-					-1		0.7
-					-0.1	1.0
-					0.1		1.0
-					1		1.3
-				</tableData>
-			</table>
+		<fcs_function name="propulsion/rotor_rudder_adjust">
+			<function>
+				<product>
+					<table>
+						<independentVar>fcs/rudder-cmd-norm</independentVar>
+						<tableData>
+							-1		-0.5
+							1		0.5
+						</tableData>
+					</table>
+					<table>
+						<independentVar>velocities/u-fps</independentVar>
+						<tableData>
+							-50		2
+							0		1
+							50		2
+						</tableData>
+					</table>
+				</product>
+			</function>
 			<output>propulsion/rotor_rudder_adjust</output>
-		</scheduled_gain>
-		
+		</fcs_function>
+
 	<!--  -->
-	
+
 		<fcs_function name="attitude/heading-true-deg">
 			<function>
 				<todegrees>
@@ -137,11 +162,11 @@ z = n
 				</todegrees>
 			</function>
 		</fcs_function>
-		
+
 		<summer name="T4T/AGP/PID/alt/h-agl-ft">
 			<input></input>
 			<input>position/h-agl-ft</input>
-		</summer>	
+		</summer>
 
 </channel>
 
@@ -150,119 +175,125 @@ z = n
 	<!-- Collective Adjust -->
 
 		<summer>
-			<input>propulsion/engine[0]/n1</input>		
-			<bias>-100</bias>
-			<output>T4T/AGP/PID/n1-pct/error</output>
-		</summer>
-		<pid>
-			<input>-T4T/AGP/PID/n1-pct/error</input>
-			<kp>0.001</kp>
-			<ki>0</ki>
-			<kd>0.001</kd>
-			<output>T4T/AGP/PID/n1-pct/adjust</output>
-		</pid>
-
-		<summer>
-			<input>T4T/AGP/PID/collective/cmd-norm</input>
-			<input>T4T/AGP/PID/n1-pct/adjust</input>
-			<clipto>											
-				<min>-1</min>									
-				<max>1</max>									
-			</clipto>
-			<output>T4T/AGP/PID/collective/cmd-norm</output>			
-		</summer>		
-				
-	<!-- Roll Adjust -->
-		
-		<fcs_function name="T4T/AGP/PID/heading/true-deg">
-			<function>
-				<todegrees>
-					<property>attitude/heading-true-rad</property>
-				</todegrees>
-			</function>
-		</fcs_function>		
-		<summer>
-			<input>attitude/heading-true-deg</input>
-			<input>-T4T/AGP/PID/heading/true-deg</input>
-			<output>T4T/AGP/PID/heading/error_deg</output>
-		</summer>
-		<pid name="T4T/AGP/PID/heading/adjust">
-			<input>T4T/AGP/PID/heading/error_deg</input>
-			<kp>0.05</kp>
-			<ki>0</ki>
-			<kd>0.05</kd>
-			<output>T4T/AGP/PID/heading/adjust</output>
-		</pid>
-		<scheduled_gain>
-			<input>T4T/AGP/PID/heading/adjust</input>
-			<table>
-				<independentVar>velocities/u-aero-fps</independentVar>
-				<tableData>
-					0		0
-					20		1
-				</tableData>
-			</table>
-			<output>T4T/AGP/PID/cyclic/roll_adjust</output>
-		</scheduled_gain>		
-		
-	<!-- Pitch Adjust -->
-	
-		<summer>
-			<input>T4T/AGP/PID/alt/h-agl-ft</input>
-			<input>-position/h-agl-ft</input>
+			<input>position/h-agl-ft</input>
+			<input>-T4T/AGP/PID/alt/h-agl-ft</input>
 			<output>T4T/AGP/PID/alt/error_ft</output>
 		</summer>
+
 		<scheduled_gain>
 			<input>T4T/one</input>
 			<table>
-				<independentVar>position/h-agl-ft</independentVar>
+				<independentVar>velocities/u-aero-fps</independentVar>
 				<tableData>
-					100			0.001
-					1000		0.0001
+					0.0		0.357
+					160		1.0
+					236		1.6
 				</tableData>
 			</table>
-			<output>T4T/AGP/PID/alt/kpkd</output>
-		</scheduled_gain>				
-		<pid name="T4T/AGP/PID/alt/adjust">
-			<input>-T4T/AGP/PID/alt/error_ft</input>
-			<kp>T4T/AGP/PID/alt/kpkd</kp>
+			<output>T4T/AGP/PID/alt/fps-correction</output>
+		</scheduled_gain>
+
+		<scheduled_gain>
+			<input>T4T/AGP/PID/alt/fps-correction</input>
+			<table>
+				<independentVar>T4T/AGP/PID/alt/error_ft</independentVar>
+				<tableData> <!-- 160fps -->
+					-100	0.8
+					100		0.15
+				</tableData>
+			</table>
+			<clipto>
+				<min>0.15</min>
+				<max>0.8</max>
+			</clipto>
+			<output>T4T/AGP/PID/collective/cmd-norm</output>
+		</scheduled_gain>
+
+	<!-- Roll Adjust -->
+
+		<scheduled_gain>
+			<input>T4T/one</input>
+			<table>
+				<independentVar>fcs/aileron-cmd-norm</independentVar>
+				<tableData>
+					-1		-1
+					1		1
+				</tableData>
+			</table>
+			<output>T4T/AGP/PID/cyclic/roll_adjust</output>
+		</scheduled_gain>
+
+	<!-- Pitch Adjust -->
+
+		<scheduled_gain>
+			<input>T4T/one</input>
+			<table>
+				<independentVar>T4T/AGP/PID/alt/h-agl-ft</independentVar>
+				<tableData>
+					30		0
+					500		236
+				</tableData>
+			</table>
+			<output>T4T/AGP/PID/velocity/bias</output>
+		</scheduled_gain>
+		<summer>
+			<input>velocities/u-aero-fps</input>
+			<input>-T4T/AGP/PID/velocity/bias</input>
+			<output>T4T/AGP/PID/velocity/error-fps</output>
+		</summer>
+		<pid>
+			<input>T4T/AGP/PID/velocity/error-fps</input>
+			<kp>0.0000001</kp>
 			<ki>0</ki>
-			<kd>T4T/AGP/PID/alt/kpkd</kd>
+			<kd>0.00000005</kd>
+			<output>T4T/AGP/PID/velocity/adjust</output>
+		</pid>
+		<summer>
+			<input>T4T/AGP/PID/cyclic/pitch_adjust</input>
+			<input>-T4T/AGP/PID/velocity/adjust</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
 			<output>T4T/AGP/PID/cyclic/pitch_adjust</output>
-		</pid>		
+		</summer>
+		<switch>
+			<default value="T4T/AGP/PID/cyclic/pitch_adjust"/>
+			<test logic="OR" value="0">
+				T4T/AGP/PID/alt/error_ft lt -8
+				T4T/AGP/PID/alt/error_ft gt 8
+			</test>
+			<output>T4T/AGP/PID/cyclic/pitch_adjust</output>
+		</switch>
+
 
 	<!-- Yaw Adjust -->
 
 		<scheduled_gain>
-			<input>T4T/AGP/PID/heading/adjust</input>
+			<input>T4T/one</input>
 			<table>
-				<independentVar>velocities/u-aero-fps</independentVar>
+				<independentVar>fcs/rudder-cmd-norm</independentVar>
 				<tableData>
-					0		-0.1
-					20		0
+					-1		-0.5
+					1		0.5
 				</tableData>
 			</table>
-			<output>T4T/AGP/PID/rudder/yaw_adjust</output>
-		</scheduled_gain>
-		<summer>
-			<input>propulsion/rotor_rudder_adjust</input>
-			<input>-T4T/AGP/PID/rudder/yaw_adjust</input>
 			<output>propulsion/rotor_rudder_adjust</output>
-		</summer>		
+		</scheduled_gain>
 
 </channel>
 
 <channel name="Flight">
 
 	<!-- Collective Adjust -->
-	
+
 		<switch name="fcs/collective-cmd-pos">
 			<default value="T4T/AGP/PID/collective/cmd-norm"/>
 			<test value="fcs/collective-cmd-norm">
 				T4T/AGP/mode-2 eq 1
 			</test>
 			<output>fcs/collective-cmd-pos</output>
-		</switch>	
+		</switch>
 
 		<scheduled_gain>
 			<input>T4T/one</input>
@@ -271,12 +302,12 @@ z = n
 				<tableData>
 					-1.0	-5
 					-0.6	-5
-					0.6		5.5
+					0.8		5.5
 				</tableData>
 			</table>
-			<output>propulsion/engine[0]/blade-angle</output>			
+			<output>propulsion/engine[0]/blade-angle</output>
 		</scheduled_gain>
-		
+
 		<scheduled_gain>
 			<input>T4T/one</input>
 			<table>
@@ -287,26 +318,26 @@ z = n
 				</tableData>
 			</table>
 			<output>propulsion/engine[0]/governor/mech_link</output>
-		</scheduled_gain>		
-		
+		</scheduled_gain>
+
 	<!-- Roll Adjust -->
-	
+
 		<summer>
 			<input>T4T/AGP/PID/cyclic/roll_adjust</input>
 			<input>T4T/AGP/PID/cyclic/roll_trim-hold</input>
-			<clipto>											
-				<min>-1</min>									
-				<max>1</max>									
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
 			</clipto>
-			<output>T4T/AGP/PID/cyclic/roll_target</output>														
+			<output>T4T/AGP/PID/cyclic/roll_target</output>
 		</summer>
-		
+
 		<switch name="T4T/AGP/PID/cyclic/roll_trim-hold">
 			<default value="T4T/AGP/PID/cyclic/roll_trim-hold"/>
 			<test value="T4T/AGP/PID/cyclic/roll_target">
 				T4T/AGP/trim eq 1
 			</test>
-		</switch>		
+		</switch>
 
 		<scheduled_gain>
 			<input>T4T/one</input>
@@ -319,7 +350,7 @@ z = n
 			</table>
 			<output>external_reactions/rotor_main/cyclic_roll-in</output>
 		</scheduled_gain>
-		
+
 		<scheduled_gain>
 			<input>T4T/one</input>
 			<table>
@@ -330,18 +361,18 @@ z = n
 				</tableData>
 			</table>
 			<output>propulsion/engine[0]/yaw-angle-rad</output>
-		</scheduled_gain>		
-		
+		</scheduled_gain>
+
 	<!-- Pitch Adjust -->
 
 		<summer>
 			<input>T4T/AGP/PID/cyclic/pitch_adjust</input>
 			<input>T4T/AGP/PID/cyclic/pitch_trim-hold</input>
-			<clipto>											
-				<min>-1</min>									
-				<max>1</max>									
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
 			</clipto>
-			<output>T4T/AGP/PID/cyclic/pitch_target</output>														
+			<output>T4T/AGP/PID/cyclic/pitch_target</output>
 		</summer>
 
 		<switch name="T4T/AGP/PID/cyclic/pitch_trim-hold">
@@ -350,14 +381,7 @@ z = n
 				T4T/AGP/trim eq 1
 			</test>
 		</switch>
-		<switch>
-			<default value="T4T/AGP/trim"/>
-			<test value="0">
-				T4T/AGP/trim eq 1
-			</test>
-			<output>T4T/AGP/trim</output>			
-		</switch>		
-	
+
 		<scheduled_gain>
 			<input>T4T/one</input>
 			<table>
@@ -369,7 +393,7 @@ z = n
 			</table>
 			<output>external_reactions/rotor_main/cyclic_pitch-in</output>
 		</scheduled_gain>
-			
+
 		<fcs_function>
 			<function>
 				<sum>
@@ -383,8 +407,8 @@ z = n
 					<value>1.483529864</value>
 				</sum>
 			</function>
-			<output>propulsion/engine[0]/pitch-angle-rad</output>			
-		</fcs_function>		
+			<output>propulsion/engine[0]/pitch-angle-rad</output>
+		</fcs_function>
 
 		<fcs_function>
 			<function>
@@ -400,7 +424,7 @@ z = n
 					</sum>
 			</function>
 			<output>T4T/aero/h-tail/rigging-rad</output>
-		</fcs_function>	
+		</fcs_function>
 
 		<fcs_function>
 			<function>
@@ -408,87 +432,100 @@ z = n
 					<property>T4T/aero/h-tail/rigging-rad</property>
 				</todegrees>
 			</function>
-			<output>T4T/aero/h-tail/rigging-deg</output>			
-		</fcs_function>			
+			<output>T4T/aero/h-tail/rigging-deg</output>
+		</fcs_function>
 
 	<!-- Yaw Adjust -->
-		
+
+		<summer>
+			<input>propulsion/rotor_rudder_adjust</input>
+			<input>T4T/AGP/PID/rudder/trim-hold</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+			<output>T4T/AGP/PID/rudder/target</output>
+		</summer>
+
+		<switch name="T4T/AGP/PID/rudder/trim-hold">
+			<default value="T4T/AGP/PID/rudder/trim-hold"/>
+			<test value="T4T/AGP/PID/rudder/target">
+				T4T/AGP/trim eq 1
+			</test>
+		</switch>
+		<switch>
+			<default value="T4T/AGP/trim"/>
+			<test value="0">
+				T4T/AGP/trim eq 1
+			</test>
+			<output>T4T/AGP/trim</output>
+		</switch>
+
 		<fcs_function name="propulsion/rudder-with-roll_adjust">
-			<function>																			
-				<product>																									
-					<table>
-						<independentVar>propulsion/rotor_rudder_adjust</independentVar>							
-						<tableData>
-								0.7		0.0
-								1.0		1.0
-								1.3		0.0						
-						</tableData>
-					</table>
-					<table>																						
-						<independentVar lookup="row">attitude/roll-rad</independentVar>																						
-						<independentVar lookup="column">velocities/u-fps</independentVar>																						
-						<tableData>
-										10		50
-								-1		0		-0.3
-								0		0		0.0
-								1		0		0.3								
-						</tableData>
-					</table>					
-				</product>																									
+			<function>
+				<table>
+					<independentVar lookup="row">attitude/roll-rad</independentVar>
+					<independentVar lookup="column">velocities/u-fps</independentVar>
+					<tableData>
+									10		236
+							-0.78	0		0.7
+							0.78	0		-0.7
+					</tableData>
+				</table>
 			</function>
-			<output>propulsion/rudder-with-roll_adjust</output>			
-		</fcs_function>		
-	
+			<output>propulsion/rudder-with-roll_adjust</output>
+		</fcs_function>
+
 	<!-- Roll Damping -->
 
 		<fcs_function>
 			<function>
 				<quotient>
 					<sum>
-						<property>moments/l-prop-lbsft</property>					
-						<property>moments/l-tail_rotor-lbsft</property>							
+						<property>moments/l-prop-lbsft</property>
+						<property>moments/l-tail_rotor-lbsft</property>
 					</sum>
-					<property>external_reactions/rotor_main/z</property>				
+					<property>external_reactions/rotor_main/z</property>
 				</quotient>
 			</function>
 			<output>external_reactions/rotor_main/damping_l-precession-ft</output>
 		</fcs_function>
-		
+
 		<pure_gain>
 			<input>external_reactions/rotor_main/damping_l-precession-ft</input>
 			<gain>-12</gain>
 			<output>external_reactions/rotor_main/damping_l-precession-in</output>
 		</pure_gain>
-		
+
 		<pure_gain>
 			<input>velocities/p-rad_sec</input>
 			<gain>40</gain>
 			<output>external_reactions/rotor_main/damping_p-rad_sec-in</output>
-		</pure_gain>		
-			
+		</pure_gain>
+
 	<!-- Pitch Damping -->
-	
+
 		<fcs_function>
 			<function>
 				<product>
 					<value>-12</value>
 					<quotient>
 						<property>moments/m-prop-lbsft</property>
-						<property>external_reactions/rotor_main/z</property>					
+						<property>external_reactions/rotor_main/z</property>
 					</quotient>
 				</product>
 			</function>
 			<output>external_reactions/rotor_main/damping_m-precession-in</output>
 		</fcs_function>
-		
+
 		<pure_gain>
 			<input>velocities/q-rad_sec</input>
 			<gain>20</gain>
 			<output>external_reactions/rotor_main/damping_q-rad_sec-in</output>
-		</pure_gain>		
+		</pure_gain>
 
 	<!-- Yaw Damping -->
-	
+
 		<scheduled_gain>
 			<input>T4T/one</input>
 			<table>
@@ -499,41 +536,42 @@ z = n
 				</tableData>
 			</table>
 			<output>external_reactions/rotor_tail/damping_r-rad_sec</output>
-		</scheduled_gain>		
-		
-	<!-- Roll -->	
+		</scheduled_gain>
+
+	<!-- Roll -->
 
 		<summer>
 			<input>inertia/cg-y-in</input>
 			<input>external_reactions/rotor_main/damping_l-precession-in</input>
 			<input>external_reactions/rotor_main/cyclic_roll-in</input>
- 			<input>external_reactions/rotor_main/damping_p-rad_sec-in</input>			
-			<clipto>														
-				<min>-100</min> <!-- to the right  -->													
-				<max>100</max> <!-- to the left  -->													
-			</clipto>														
-			<output>external_reactions/rotor_main/location-y-in</output>														
-		</summer>		
+ 			<input>external_reactions/rotor_main/damping_p-rad_sec-in</input>
+			<clipto>
+				<min>-100</min> <!-- to the right  -->
+				<max>100</max> <!-- to the left  -->
+			</clipto>
+			<output>external_reactions/rotor_main/location-y-in</output>
+		</summer>
 
 	<!-- Pitch -->
-		
+
 		<summer>
 			<input>inertia/cg-x-in</input>
 			<input>external_reactions/rotor_main/damping_m-precession-in</input>
-			<input>external_reactions/rotor_main/cyclic_pitch-in</input>		
- 			<input>external_reactions/rotor_main/damping_q-rad_sec-in</input>			
-			<clipto>											
-				<min>-110</min> <!-- forward  -->										
-				<max>291</max> <!-- backward  -->										
-			</clipto>											
+			<input>external_reactions/rotor_main/cyclic_pitch-in</input>
+ 			<input>external_reactions/rotor_main/damping_q-rad_sec-in</input>
+			<clipto>
+				<min>-110</min> <!-- forward  -->
+				<max>291</max> <!-- backward  -->
+			</clipto>
 			<output>external_reactions/rotor_main/location-x-in</output>
 		</summer>
 
 	<!-- Yaw -->
 
 		<summer>
-			<input>propulsion/rotor_rudder_adjust</input>
-			<input>propulsion/rudder-with-roll_adjust</input>			
+			<input>T4T/one</input>
+			<input>T4T/AGP/PID/rudder/target</input>
+			<input>propulsion/rudder-with-roll_adjust</input>
 			<input>external_reactions/rotor_tail/damping_r-rad_sec</input>
 			<output>external_reactions/rotor_tail/power_adjust</output>
 		</summer>

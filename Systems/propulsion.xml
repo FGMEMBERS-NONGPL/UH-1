@@ -27,9 +27,7 @@ you must distribute your contributions under the same license as the original.
 
 <system name="Engine">
 
-<property type="double" value="1">T4T/one</property>
-<property type="double" value="72">propulsion/engine[0]/governor/mech_link</property>
-<!-- <property type="double" value="0.6858">/controls/engines/engine[0]/throttle</property> -->
+<property type="double" value="0.72">propulsion/engine[0]/governor/mech_link</property>
 
 <channel name="Lycoming_T53-L-11_turboshaft Governor">
 
@@ -37,13 +35,7 @@ you must distribute your contributions under the same license as the original.
 			<bias>325</bias>		
 			<input>-propulsion/engine[0]/propeller-rpm</input>			
 			<output>propulsion/engine[0]/governor/error-rpm</output>			
-		</summer>
-		
-<!-- 		<summer>
-			<input>propulsion/engine[0]/governor/mech_link</input>		
-			<input>-propulsion/engine[0]/n1</input>			
-			<output>propulsion/engine[0]/governor/error</output>			
-		</summer>	 -->	
+		</summer>	
 		
 		<switch>
 			<default value="0"/>
@@ -51,16 +43,7 @@ you must distribute your contributions under the same license as the original.
 				propulsion/engine[0]/set-running eq 1
 			</test>
 			<output>propulsion/engine[0]/governor/error-rpm</output>
-		</switch>
-		
-<!-- 		<switch>
-			<default value="0"/>
-			<test logic="AND" value="propulsion/engine[0]/governor/error">
-				fcs/thrust-cmd eq -1
-				propulsion/engine[0]/set-running eq 1
-			</test>
-			<output>propulsion/engine[0]/governor/error</output>
-		</switch> -->		
+		</switch>	
 		
 		<pid>
 			<input>propulsion/engine[0]/governor/error-rpm</input>
@@ -68,15 +51,7 @@ you must distribute your contributions under the same license as the original.
 			<ki>0.001</ki>
 			<kd>0.1</kd>
 			<output>propulsion/engine[0]/governor/adjust</output>
-		</pid>
-		
-<!-- 		<pid>
-			<input>propulsion/engine[0]/governor/error</input>
-			<kp>0.0005</kp>
-			<ki>0.0001</ki>
-			<kd>0.0001</kd>
-			<output>propulsion/engine[0]/governor/adjust</output>
-		</pid> -->		
+		</pid>	
 
 		<summer>
 			<input>propulsion/engine[0]/governor/mech_link</input>		
@@ -86,7 +61,11 @@ you must distribute your contributions under the same license as the original.
 	
 		<summer>
 			<input>/controls/engines/engine[0]/throttle</input>		
-			<input>propulsion/engine[0]/governor/adjust</input>			
+			<input>propulsion/engine[0]/governor/adjust</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>			
 			<output>/controls/engines/engine[0]/throttle</output>
 		</summer>
 		

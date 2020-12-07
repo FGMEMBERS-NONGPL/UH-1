@@ -9,7 +9,7 @@
   <n1idle_max_delay>2</n1idle_max_delay>
   <maxstartingtime>3</maxstartingtime>
   <startern1>60</startern1>
-  <ielumaxtorque unit="FT*LB">1251</ielumaxtorque>
+  <ielumaxtorque unit="FT*LB">0</ielumaxtorque>
   <itt_delay>0.15</itt_delay>
   <betarangeend>64</betarangeend>
   <reversemaxpower>0</reversemaxpower>
