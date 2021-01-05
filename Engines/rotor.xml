@@ -58,7 +58,7 @@ Based on tables from JavaProp.
 	To specify from the propeller to the engine use 1/X = gearration = 1/0.477 = 2.09
 	--> 
   
-	<gearratio>20.3</gearratio>
+	<gearratio>65.08</gearratio> <!-- to get from 21085(N2) to 324rpm -->
 
 	<!-- 
 	<minpitch> is the Prop min AoA setting

@@ -140,7 +140,7 @@
   <animation>
     <type>spin</type>
     <object-name>Ensemble</object-name>
-    <property>fdm/jsbsim/propulsion/engine/propeller-rpm</property>
+    <property>fdm/jsbsim/propulsion/engine[0]/rotor/main-rpm</property>
     <factor>1</factor>
     <axis>
       <z>1</z>

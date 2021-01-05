@@ -473,7 +473,7 @@
   <animation>
     <type>rotate</type>
     <object-name>elevatortrim</object-name>
-    <property>fdm/jsbsim/fcs/elevator-cmd-norm</property>
+    <property>fdm/jsbsim/fcs/elevator-cmd-pos</property>
     <interpolation>
       <entry><ind>-1</ind><dep>-15</dep></entry>
       <entry><ind>1</ind><dep>15</dep></entry>

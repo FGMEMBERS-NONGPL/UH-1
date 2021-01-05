@@ -42,7 +42,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Lneedle</object-name>
-    <property>/fdm/jsbsim/propulsion/engine[0]/propeller-rpm</property>
+    <property>/fdm/jsbsim/propulsion/engine[0]/rotor/main-rpm</property>
     <interpolation>
       <entry><ind>0</ind><dep>-260</dep></entry>
       <entry><ind>357</ind><dep>70</dep></entry>
@@ -57,10 +57,10 @@
   <animation>
     <type>rotate</type>
     <object-name>Rneedle</object-name>
-    <property>/fdm/jsbsim/propulsion/engine[0]/n1</property>
+    <property>/fdm/jsbsim/propulsion/engine[0]/propeller-rpm</property>
     <interpolation>
       <entry><ind>0</ind><dep>-260</dep></entry>
-      <entry><ind>110</ind><dep>70</dep></entry>
+      <entry><ind>357</ind><dep>70</dep></entry>
     </interpolation>
     <axis>
       <x> -1 </x>

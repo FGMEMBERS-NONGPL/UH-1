@@ -27,7 +27,6 @@ you must distribute your contributions under the same license as the original.
 <system name="angle_of_attack">
 
 	<property type="double" value="0">T4T/aero/h-tail/rigging-deg</property>
-	<property type="double" value="1">T4T/one</property>
 	<property type="double" value="1">propulsion/engine[0]/rotor/vortex_ring</property>	
 		
 	<channel name="rotation_velocities">

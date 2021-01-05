@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+	<output name="Test_Output.csv" type="CSV" rate="10">
+		<property>/velocities/airspeed-kt</property>	
+		<property>propulsion/engine[0]/advance-ratio</property>
+		<property>velocities/uv-aero-fps</property>
+		<property>velocities/w-aero-fps</property>			
+	</output>
+	
+
+	

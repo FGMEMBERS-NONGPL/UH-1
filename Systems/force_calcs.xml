@@ -405,15 +405,28 @@ you must distribute your contributions under the same license as the original.
 	<channel name="rotor_forces">
 		
 			<!-- ####   Tail Rotor   #### -->
+			
+			<fcs_function name="propulsion/engine[0]/rotor/tail_armature-ft">
+				<function>
+					<quotient>				
+						<difference>
+							<property>external_reactions/rotor_tail/location-x-in</property>						
+							<property>external_reactions/rotor_main/location-x-in</property>
+						</difference>
+						<value>12</value>
+					</quotient>						
+				</function>
+				<output>propulsion/engine[0]/rotor/tail_armature-ft</output>
+			</fcs_function>			
 
 			<fcs_function name="propulsion/engine[0]/rotor/tail-lbs">
 				<function>					
 					<quotient>
-						<product>
+						<product>						
 							<property>external_reactions/rotor_tail/power_adjust</property>
 							<property>moments/n-prop-lbsft</property>
 						</product>						
-						<value>28.49504744832869</value>
+						<property>propulsion/engine[0]/rotor/tail_armature-ft</property>
 					</quotient>
 				</function>
 				<output>external_reactions/rotor_tail/y</output>
@@ -434,7 +447,7 @@ you must distribute your contributions under the same license as the original.
 			</fcs_function>
 
 			<pure_gain name="propulsion/engine[0]/rotor/tail-rpm">
-				<input>propulsion/engine[0]/propeller-rpm</input>
+				<input>propulsion/engine[0]/rotor/main-rpm</input>
 				<gain>6</gain>
 				<output>propulsion/engine[0]/rotor/tail-rpm</output>
 			</pure_gain>
@@ -449,8 +462,9 @@ you must distribute your contributions under the same license as the original.
 				
 			<fcs_function>
 				<function>
-					<product>
-						<property>propulsion/engine[0]/rotor/vortex_ring</property>				
+					<product>					
+						<property>propulsion/engine[0]/rotor/vortex_ring</property>
+						<property>propulsion/engine[0]/centrifugal_clutch-pos-norm</property>						
 						<property>propulsion/engine[0]/thrust-lbs</property>
 						<value>-100000000</value>						
 					</product>
