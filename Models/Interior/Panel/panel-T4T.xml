@@ -187,6 +187,19 @@
     </offsets>
   </model>
   
+    <!--Torque-->
+  <model>
+    <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/torque/torque-T4T.xml</path>
+    <offsets>
+      <x-m> -0.227 </x-m>
+      <y-m>  0.138 </y-m>
+      <z-m>  0.167 </z-m>
+      <roll-deg>      0 </roll-deg>
+      <pitch-deg>   -15 </pitch-deg>
+      <heading-deg>   0 </heading-deg>
+    </offsets>
+  </model>
+  
   <!--second AI-->
    <model>
     <path>Aircraft/UH-1/Models/Interior/Panel/Instruments/standby-adi/stdby-adi.xml</path>

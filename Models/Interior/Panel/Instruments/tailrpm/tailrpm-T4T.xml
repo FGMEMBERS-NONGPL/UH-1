@@ -41,10 +41,10 @@
   <animation>
     <type>rotate</type>
     <object-name>needle1</object-name>
-    <property>sim/model/uh1/torque-pct</property>
+    <property>fdm/jsbsim/propulsion/engine[1]/propeller-rpm</property>
     <interpolation>
-      <entry><ind>   0 </ind><dep> -260 </dep></entry>
-      <entry><ind> 162 </ind><dep> -105 </dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>1782</ind><dep>270</dep></entry>
     </interpolation>
     <axis>
       <x> -1 </x>
@@ -56,20 +56,20 @@
   <animation>
     <type>rotate</type>
     <object-name>needle2</object-name>
-    <property>fdm/jsbsim/propulsion/tail-rpm</property>
+    <property>fdm/jsbsim/propulsion/engine[1]/propeller-rpm</property>
     <interpolation>
-      <entry><ind>   0 </ind><dep> -260 </dep></entry>
-      <entry><ind> 1950 </ind><dep>   0 </dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>1782</ind><dep>180</dep></entry>
     </interpolation>
     <center>
-      <x-m>  0.001 </x-m>
-      <y-m> -0.008 </y-m>
-      <z-m>  0.009 </z-m>
+      <x-m>0.001</x-m>
+      <y-m>-0.008</y-m>
+      <z-m>0.009</z-m>
     </center>
     <axis>
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
     </axis>
   </animation>
 

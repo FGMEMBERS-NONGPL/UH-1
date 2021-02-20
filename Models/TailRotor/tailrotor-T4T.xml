@@ -47,7 +47,7 @@
   <animation>
     <type>rotate</type>
     <object-name>rotorcomplet</object-name>
-    <property>/rotors/tail/blade[0]/position-deg</property>
+    <property>fdm/jsbsim/propulsion/engine[1]/blade-angle</property>
     <axis>
       <z>1</z>
     </axis>
@@ -56,7 +56,7 @@
   <animation>
     <type>spin</type>
     <object-name>rotorcomplet</object-name>
-    <property>fdm/jsbsim/propulsion/engine[0]/rotor/tail-rpm</property>
+    <property>fdm/jsbsim/propulsion/engine[1]/rotor/tail-rpm</property>
     <axis>
       <z>1</z>
     </axis>

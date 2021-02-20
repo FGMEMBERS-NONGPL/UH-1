@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<!--
+
+Copyright (c) 2021 Simon 'bomber' Morley
+simonbomber64 at googlemail.com
+
+This work is licensed under the
+Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+To view a copy of this license,
+visit http://creativecommons.org/licenses/by-nc-sa/_3.0/ or
+send a letter to Creative Commons, PO Box 1866, Mountain View, Cd 94042, USA.
+
+Attribution,  You must give appropriate credit, provide a link to the license,
+and indicate if changes were made. You may do so in any reasonable manner,
+but not in any way that suggests the licensor endorses you or your use.
+
+NonCommercial,  You may not use the material for commercial purposes.
+
+ShareAlike,  If you remix, transform, or build upon the material,
+you must distribute your contributions under the same license as the original.
+
+**************************************************************************
+-->
+
+<propeller name="internal turbines for Lycoming_T53" version="1.01">
+
+	<!--
+	<ixx> is the rotational moment of inertia for the turbine.
+	Small numbers accelerate faster but bounce around more. Large numbers
+	accelerate slower and regulate smoother.
+	-->
+
+	<ixx unit="SLUG*FT2">1.97892604324753</ixx>
+
+	<!--
+	Turbine Characteristics
+	-->
+
+	<diameter unit="IN">15.3127559055118</diameter>
+	<numblades>4</numblades>
+	<constspeed>1</constspeed>
+
+	<!--
+	<gearratio> is the gearing between the turbines n1 and n2 rpm's
+	1 / n2/n1
+
+	Engine rpm = 36,000rpm
+	Ouput shaft rpm = 21,000
+	21085/36000 = 0.58569
+	1/0.58569 = 1.707
+	-->
+
+	<gearratio>1.707</gearratio>         				<!-- to get from 36000(N1) to 21085(N2) rpm -->
+
+	<minpitch>0</minpitch>								<!-- is the Prop min AoA setting -->
+	<maxpitch>90</maxpitch>								<!-- is the Prop max AoA setting -->
+
+	<minrpm>18900</minrpm>
+	<maxrpm>21085</maxrpm>								<!-- is the turbine Govenors max setting -->
+
+	<table name="C_THRUST" type="internal">
+		<tableData>
+			0	90
+		0	0	0
+		1	0	0
+		</tableData>
+	</table>
+
+	<table name="C_POWER" type = "internal">
+		<tableData>
+			0	90
+		0	0.1	2
+		1	0.1	2
+		</tableData>
+	</table>
+
+
+</propeller>

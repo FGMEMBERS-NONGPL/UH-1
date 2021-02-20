@@ -4,7 +4,7 @@
 ************************************************************************
 Avatar Scorpion Keyboard configuration file
 
-Copyright (c) 2020 Simon 'bomber' Morley																												
+Copyright (c) 2021 Simon 'bomber' Morley																												
 simonbomber64 at googlemail.com
 ************************************************************************
 -->
@@ -17,27 +17,15 @@ simonbomber64 at googlemail.com
 			<desc>turbines start stop</desc>
 			<binding>
 				<command>property-toggle</command>
-				<property>/controls/electric/engine[0]/generator</property>
+				<property>/controls/electric/engine[2]/generator</property>
 			</binding>
 			<binding>
 				<command>property-toggle</command>
-				<property>/controls/engines/engine[0]/cutoff</property>
+				<property>/controls/engines/engine[2]/cutoff</property>
 			</binding>
 			<binding>
 				<command>property-toggle</command>
-				<property>/controls/engines/engine[0]/starter</property>
-			</binding>
-			<binding>
-				<command>property-toggle</command>
-				<property>/controls/electric/engine[1]/generator</property>
-			</binding>
-			<binding>
-				<command>property-toggle</command>
-				<property>/controls/engines/engine[1]/cutoff</property>
-			</binding>
-			<binding>
-				<command>property-toggle</command>
-				<property>/controls/engines/engine[1]/starter</property>
+				<property>/controls/engines/engine[2]/starter</property>
 			</binding>
 		</key>
 

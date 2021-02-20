@@ -42,7 +42,7 @@
 			<path>Aircraft/UH-1/Sounds/v22_turbine_strt_out.wav</path>
 			<condition>
 				<greater-than>
-					<property>fdm/jsbsim/propulsion/engine[0]/n1</property>
+					<property>fdm/jsbsim/propulsion/engine[2]/n1</property>
 					<value>1</value>
 				</greater-than>
 			</condition>
@@ -62,7 +62,7 @@
 			<condition>
 				<and>			
 					<greater-than>
-						<property>fdm/jsbsim/propulsion/engine[0]/engine-rpm</property>
+						<property>fdm/jsbsim/propulsion/engine[2]/engine-rpm</property>
 						<value>500</value>
 					</greater-than>
 					<not>
@@ -71,12 +71,12 @@
 				</and>
 			</condition>
 			<volume>
-				<property>fdm/jsbsim/propulsion/engine[0]/engine-rpm</property>
+				<property>fdm/jsbsim/propulsion/engine[2]/engine-rpm</property>
 				<factor>0.0002</factor>
 				<max>1.0</max>				
 			</volume>
 			<pitch>
-				<property>fdm/jsbsim/propulsion/engine[0]/engine-rpm</property>
+				<property>fdm/jsbsim/propulsion/engine[2]/engine-rpm</property>
 				<factor>0.00035</factor>
 				<min>0.5</min>				
 			</pitch>
@@ -93,7 +93,7 @@
 			<condition>
 				<and>
 					<greater-than>
-						<property>fdm/jsbsim/propulsion/engine[0]/propeller-rpm</property>
+						<property>fdm/jsbsim/propulsion/engine[0]/rotor/main-rpm</property>
 						<value>1</value>
 					</greater-than>
 					<not>
@@ -102,12 +102,12 @@
 				</and>
 			</condition>
 			<volume>
-				<property>fdm/jsbsim/propulsion/engine[0]/propeller-rpm</property>
+				<property>fdm/jsbsim/propulsion/engine[0]/rotor/main-rpm</property>
 				<factor>0.006</factor>
 				<offset>-0.5</offset>				
 			</volume>
 			<pitch>
-				<property>fdm/jsbsim/propulsion/engine[0]/propeller-rpm</property>
+				<property>fdm/jsbsim/propulsion/engine[0]/rotor/main-rpm</property>
 				<factor>0.0035</factor>
 				<offset>0</offset>				
 				<max>1.0</max>				
