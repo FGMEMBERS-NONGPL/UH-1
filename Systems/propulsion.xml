@@ -350,14 +350,20 @@ you must distribute your contributions under the same license as the original.
 			<input>moments/n-prop-lbsft</input>
 			<input>T4T/AGP/PID/anti-torque/target</input>
 		</summer>
+				
+		<pure_gain>
+			<input>propulsion/engine[1]/blade_angle-pid/error-lbsft</input> 
+			<gain>0.000001</gain>
+			<output>propulsion/engine[1]/blade_angle-pid/output</output>
+		</pure_gain>		
 
-		<pid>
+<!-- 		<pid>
 			<input>propulsion/engine[1]/blade_angle-pid/error-lbsft</input>
 			<kp>0.000001</kp>
 			<ki>0.0</ki>
 			<kd>0.000001</kd>
 			<output>propulsion/engine[1]/blade_angle-pid/output</output>
-		</pid>
+		</pid> -->
 
 		<summer>
 			<input>propulsion/engine[1]/blade_angle-pid/output</input>
